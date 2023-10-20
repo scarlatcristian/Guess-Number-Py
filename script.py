@@ -2,36 +2,35 @@ import art
 import random
 
 print("Welcome to the Number Guessing Game!")
-random_num = random.choice(range(1, 101))
-difficulty = input("Choose a difficulty. Type 'easy' or 'hard': ").lower()
+random_num = random.randint(1, 100)
 
-while difficulty != "easy" and difficulty != "hard":
+
+def select_difficulty():
     difficulty = input("Choose a difficulty. Type 'easy' or 'hard': ").lower()
+    while difficulty not in ["easy", "hard"]:
+        difficulty = input("Invalid input. Choose 'easy' or 'hard': ").lower()
+    return 10 if difficulty == "easy" else 5
 
 
 def play_game():
-    lives = 0
-    if difficulty == "easy":
-        lives = 10
-    else:
-        lives = 5
-    guess = int(input("Make a guess: "))
+    lives = select_difficulty()
+    print("Guess the number between 1 and 100")
 
-    while lives > 0 and guess != random_num:
-        if guess < random_num:
-            lives -= 1
-            print(
-                f"Too low.\nGuess again.\nYou have {lives} remaining to guess the number")
-        elif guess > random_num:
-            lives -= 1
-            print(
-                f"Too high.\nGuess again.\nYou have {lives} remaining to guess the number")
+    while lives > 0:
         guess = int(input("Make a guess: "))
+        if guess < random_num:
+            print(
+                f"Too low.")
+        elif guess > random_num:
+            print(
+                f"Too high.")
+        else:
+            print(f"Congratulation! You guess the number {random_num}!")
+            return
+        lives -= 1
+        print(f"Guess again.\nYou have {lives} remaining to guess the number")
 
-    if guess == random_num:
-        print("Congratulations, you guess the number!")
-    else:
-        print(f"You lost, the number was {random_num}")
+    print(f"Sorry you run out of lives, the number was {random_num}")
 
 
 play_game()
